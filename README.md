@@ -6,7 +6,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 # 🛒 Project Ecommerce
 
 ## 🚀 Live Demo
-👉 https://your-vercel-link.vercel.app
+👉 https://project-ecommerce-xyz.vercel.app/
 
 ## 📌 Features
 - User Login / Signup
