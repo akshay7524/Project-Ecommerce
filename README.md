@@ -2,11 +2,41 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+
+# 🛒 Project Ecommerce
+
+## 🚀 Live Demo
+👉 https://your-vercel-link.vercel.app
+
+## 📌 Features
+- User Login / Signup
+- Add to Cart
+- Checkout System
+- Redux State Management
+- Responsive UI
+
+## 🛠 Tech Stack
+- React.js
+- Redux
+- Firebase
+- Bootstrap / Reactstrap
+
+## 📦 Installation
+git clone https://github.com/akshay7524/Project-Ecommerce.git
+cd Project-Ecommerce
+npm install
+npm start
+
+## 👨‍💻 Author
+Akshay Anand
+
+
 ## Available Scripts
 
 In the project directory, you can run:
 
 ### `npm start`
+
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
