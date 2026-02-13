@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 const Cart = () => {
   const isLoggedIn = useSelector((state) => state.isLoggedIn);
   const cartData = useSelector((state) => state.cartData);
-  const dispatch = useDispatch();
+  
   const navigate = useNavigate();
 
   const totalAmount = cartData.reduce(
