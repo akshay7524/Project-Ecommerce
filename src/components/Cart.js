@@ -1,10 +1,11 @@
 import React from "react";
 import CartProduct from "./CartProduct";
 import LoginModal from "./LoginModal";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Container, Table } from "reactstrap";
 import CartTotal from "./CartTotal";
 import { useNavigate } from "react-router-dom";
+
 
 const Cart = () => {
   const isLoggedIn = useSelector((state) => state.isLoggedIn);
