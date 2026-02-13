@@ -1,134 +1,95 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
 import Swal from "sweetalert2";
-import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import {
+  signInWithEmailAndPassword,
+  signInWithPopup
+} from "firebase/auth";
 import { auth, googleAuthProvider } from "../firebase";
+import { useDispatch } from "react-redux";
 import { setLoginStatus } from "../redux/Action";
 import {
   Input,
-  Form,
   FormGroup,
   Label,
   Button,
   Modal,
   ModalHeader,
   ModalBody,
-  ModalFooter,
+  ModalFooter
 } from "reactstrap";
 
-  const LoginModal = ({ toggleShowModal }) => {
-  const [modal, setModal] = useState(true);
-  const [showEmailForm, setShowEmailForm] = useState(false);
+const LoginModal = ({ toggleShowModal }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const dispatch = useDispatch();
+  const dispatch = useDispatch(); // ⭐ ADD
 
-  const toggle = () => {
-    setModal(!modal);
-    if (toggleShowModal) {
-      toggleShowModal();
-    }
-  };
+  const toggle = () => toggleShowModal();
 
-  const handleLoginWithEmail = () => {
-    setShowEmailForm(true); 
-  };
-
-  const handleLoginWithGoogle = async () => {
-    try {
-      await signInWithPopup(auth, googleAuthProvider);
-      dispatch(setLoginStatus(true));
-      toggle(); 
-    } catch (error) {
-      Swal.fire({
-        title: "Login Failed",
-        text: error.message,
-        icon: "error",
-      });
-    }
-  };
-
-  const handleSubmitEmailLogin = async () => {
+  const loginEmail = async () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      dispatch(setLoginStatus(true));
-      toggle(); 
+
+      dispatch(setLoginStatus(true)); // ⭐ IMPORTANT
+
+      Swal.fire("Success", "Login ho gaya 🙂", "success");
+      toggle();
     } catch (error) {
-      Swal.fire({
-        title: "Login Failed",
-        text: error.message,
-        icon: "error",
-      });
+      Swal.fire("Error", error.message, "error");
+    }
+  };
+
+  const loginGoogle = async () => {
+    try {
+      await signInWithPopup(auth, googleAuthProvider);
+
+      dispatch(setLoginStatus(true)); // ⭐ IMPORTANT
+
+      Swal.fire("Success", "Google login done 🙂", "success");
+      toggle();
+    } catch (error) {
+      Swal.fire("Error", error.message, "error");
     }
   };
 
   return (
-    <Modal isOpen={modal} toggle={toggle}>
+    <Modal isOpen toggle={toggle}>
       <ModalHeader toggle={toggle}>Login</ModalHeader>
+
       <ModalBody>
-        {!showEmailForm ? (
-          <div className="text-center">
-            <Button
-              color="primary"
-              onClick={handleLoginWithEmail}
-              style={{ width: "100%", marginBottom: "10px" }}
-            >
-              <img
-                src="email-icon.png"
-                alt="Email"
-                style={{ width: "20px", marginRight: "10px" }}
-              />
-              Sign in with Email
-            </Button>
-            <Button
-              color="danger"
-              onClick={handleLoginWithGoogle}
-              style={{ width: "100%" }}
-            >
-              <img
-                src="google-icon.png"
-                alt="Google"
-                style={{ width: "20px", marginRight: "10px" }}
-              />
-              Sign in with Google
-            </Button>
-          </div>
-        ) : (
-          <Form>
-            <FormGroup floating>
-              <Input
-                id="email"
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <Label for="email">Email</Label>
-            </FormGroup>
-            <FormGroup floating>
-              <Input
-                id="password"
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <Label for="password">Password</Label>
-            </FormGroup>
-            <Button
-              color="primary"
-              onClick={handleSubmitEmailLogin}
-              style={{ width: "100%" }}
-            >
-              Login with Email
-            </Button>
-          </Form>
-        )}
-      </ModalBody>
-      <ModalFooter>
-        <Button color="secondary" onClick={toggle}>
-          Cancel
+        <FormGroup>
+          <Label>Email</Label>
+          <Input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </FormGroup>
+
+        <FormGroup>
+          <Label>Password</Label>
+          <Input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </FormGroup>
+
+        <Button color="primary" onClick={loginEmail} block>
+          Login
         </Button>
+
+        <Button
+          color="danger"
+          onClick={loginGoogle}
+          block
+          style={{ marginTop: "10px" }}
+        >
+          Login with Google
+        </Button>
+      </ModalBody>
+
+      <ModalFooter>
+        <Button onClick={toggle}>Cancel</Button>
       </ModalFooter>
     </Modal>
   );

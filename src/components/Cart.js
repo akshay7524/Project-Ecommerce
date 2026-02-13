@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import CartProduct from "./CartProduct";
 import LoginModal from "./LoginModal";
 import Swal from "sweetalert2";
@@ -6,11 +6,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { Container, Table, Button } from "reactstrap";
 import { clearCart } from "../redux/Action";
 import CartTotal from "./CartTotal";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const isLoggedIn = useSelector((state) => state.isLoggedIn);
   const cartData = useSelector((state) => state.cartData);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [showLogin, setShowLogin] = useState(true);
 
   const handleCheckout = () => {
     dispatch(clearCart());
@@ -25,8 +29,13 @@ const Cart = () => {
     0
   );
 
+  // ⭐ LOGIN REQUIRED
   if (!isLoggedIn) {
-    return <LoginModal />;
+    return (
+      <LoginModal
+        toggleShowModal={() => navigate("/")}
+      />
+    );
   }
 
   return (
@@ -49,9 +58,7 @@ const Cart = () => {
 
           <h4>Total Amount: ₹ {totalAmount}</h4>
 
-          <Button color="success" onClick={handleCheckout}>
-            Checkout
-          </Button>
+         
         </Container>
       ) : (
         <div className="EmptyCartText">
